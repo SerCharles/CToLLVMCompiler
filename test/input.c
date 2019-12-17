@@ -6,7 +6,7 @@ char b = '1';
 
 
 int main() {
-	c=2;
+	int c = 2;
 	char S[1024];
 	char T[1024];
 	int nxt[1024];

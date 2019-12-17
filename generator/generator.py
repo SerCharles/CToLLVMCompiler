@@ -20,8 +20,8 @@ class Visitor(simpleCVisitor):
     def __init__(self):
         super(simpleCVisitor, self).__init__()
         self.module = ir.Module()
-        #self.module.triple = "x86_64-pc-linux-gnu" # llvm.Target.from_default_triple()
-        #self.module.data_layout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128" # llvm.create_mcjit_compiler(backing_mod, target_machine)
+        self.module.triple = "x86_64-pc-linux-gnu" # llvm.Target.from_default_triple()
+        self.module.data_layout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128" # llvm.create_mcjit_compiler(backing_mod, target_machine)
         self.blocks = []
         self.builders = []
         self.local_vars = []

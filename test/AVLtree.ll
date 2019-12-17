@@ -1,6 +1,6 @@
 ; ModuleID = ""
-target triple = "unknown-unknown-unknown"
-target datalayout = ""
+target triple = "x86_64-pc-linux-gnu"
+target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
 
 @"root" = common global i32 undef
 @"nodes" = common global [10000 x {i32, i32, i32, i32, i32}] zeroinitializer
