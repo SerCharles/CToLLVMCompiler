@@ -1,15 +1,5 @@
-
-
-import unittest
-
-class RedefinitionError(Exception):
-    """重定义错误"""
-    def __init__(self, name):
-        """
-        :param name: 重定义的变量名
-        """
-        self.name = name
-
+from llvmlite import ir
+from Constants import Constants
 
 class SymbolTable:
     '''
@@ -29,7 +19,7 @@ class SymbolTable:
         '''
         功能：从符号表中获取元素
         参数：待获取的元素的key
-        返回：无
+        返回：成功：返回元素，失败返回None
         '''
         i = self.CurrentLevel
         while i >= 0:
@@ -43,11 +33,13 @@ class SymbolTable:
         '''
         功能：向符号表中添加元素
         参数：待添加的key，value
-        返回：如果同一层有一样的，返回错误
+        返回：成功{"result":"success"}，失败{"result":"fail","reason":具体原因码}
         '''
         if key in self.Table[self.CurrentLevel]:
-            raise RedefinitionError(key)
+            Result = {"result":"fail", "reason":Constants.ERROR_TYPE_REDEFINATION}
+            return Result
         self.Table[self.CurrentLevel][key] = value
+        return {"result":"success"}
 
     def JudgeExist(self, item):
         '''
@@ -81,34 +73,70 @@ class SymbolTable:
             return
         self.Table.pop(-1)
         self.CurrentLevel -= 1
+    
+    def JudgeWhetherGlobal(self):
+        '''
+        功能：判断当前变量是否全局
+        参数：无
+        返回：是true，否则false
+        '''
+        if len(self.Table) == 1:
+            return True
+        else:
+            return False
+
+class Structure:
+    '''
+    结构体类
+    '''
+    def __init__(self):
+        '''
+        描述：初始化
+        参数：无
+        返回：无
+        '''
+        self.List = {}
+    
+    def AddItem(self, Name, MemberList, TypeList):
+        '''
+        描述：添加一个元素
+        参数：名称，成员列表，类型列表
+        返回：成功{"result":"success"}，失败{"result":"fail","reason":具体原因码}
+        '''
+        #todo:处理这个错误
+        if Name in self.List:
+            Result = {"result":"fail", "reason":Constants.ERROR_TYPE_REDEFINATION}
+            return Result
+        NewStruct = {}
+        NewStruct["Members"] = MemberList
+        NewStruct["Type"] = ir.LiteralStructType(TypeList)
+        self.List[Name] = NewStruct
+        return {"result":"success"}
+
+    def GetMemberType(self, Name, Member):
+        '''
+        描述：获取成员类型
+        参数：结构体名称，结构体成员名
+        返回：类型,不存在返回None
+        '''
+        if Name not in self.List:
+            return None
+        StructItem = self.List[Name]
+        TheIndex = StructItem["Members"].index(Member)
+        TheType = StructItem["Type"].elements[TheIndex]
+        return TheType
+
+    def GetMemberIndex(self, Name, Member):
+        '''
+        描述：获取成员编号
+        参数：结构体名称，结构体成员名
+        返回：类型,不存在返回None
+        '''
+        if Name not in self.List:
+            return None
+        StructItem = self.List[Name]["Members"]
+        TheIndex = StructItem.index(Member)
+        return TheIndex
 
 
-class SymbolTableTest(unittest.TestCase):
-    """符号表单元测试"""
-    def setUp(self):
-        self.symbol_table = SymbolTable()
 
-    def tearDown(self):
-        pass
-
-    def test_1(self):
-        """内层变量覆盖外层同名变量"""
-        self.symbol_table.AddItem("abc", 123)
-        self.symbol_table.EnterScope()
-        self.assertEqual(self.symbol_table.GetItem("abc"),123)
-        self.symbol_table.AddItem("abc", 333)
-        self.assertEqual(self.symbol_table.GetItem("abc"), 333)
-        self.symbol_table.QuitScope()
-        self.assertEqual(self.symbol_table.GetItem("abc"), 123)
-
-    def test_2(self):
-        """离开当前作用域后需要删除临时变量"""
-        self.symbol_table.EnterScope()
-        self.symbol_table.AddItem("abc", 333)
-        self.assertEqual(self.symbol_table.GetItem("abc"), 333)
-        self.symbol_table.QuitScope()
-        self.assertIsNone(self.symbol_table.GetItem("abc"))
-
-
-if __name__ == '__main__':
-    unittest.main()
