@@ -1,12 +1,12 @@
 from antlr4 import *
 
-from simpleCParser import simpleCParser
-from simpleCVisitor import simpleCVisitor
-from simpleCLexer import simpleCLexer
-from syntaxErrorListener import syntaxErrorListener
+from Parser.simpleCParser import simpleCParser
+from Parser.simpleCVisitor import simpleCVisitor
+from Parser.simpleCLexer import simpleCLexer
 from llvmlite import ir
-from SymbolTable import SymbolTable, Structure
-from Constants import Constants
+from Generator.SymbolTable import SymbolTable, Structure
+#from Generator.Constants import Constants
+from Generator.SyntaxErrorListener import syntaxErrorListener
 
 double = ir.DoubleType()
 int1 = ir.IntType(1)

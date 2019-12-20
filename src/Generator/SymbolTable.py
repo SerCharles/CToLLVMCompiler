@@ -1,5 +1,5 @@
 from llvmlite import ir
-from Constants import Constants
+from Generator.Constants import Constants
 
 class SymbolTable:
     '''
