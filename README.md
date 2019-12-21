@@ -24,5 +24,6 @@ src/main.py执行脚本
 
 
 
-**简单的测试方法：把我的generator文件放到丁的visitor那里，改名visitor进行测试，按照人家的方法来**
-
+**测试方法：**
+1. python src/main.py xxx.c  (会生成xxx.ll文件)
+2. lli xxx.ll
