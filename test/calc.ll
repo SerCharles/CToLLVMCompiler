@@ -72,21 +72,21 @@ main.entry:
   %".419" = call i32 (i8*, ...) @"printf"(i8* %".416", i32 %".418")
   ret i32 0
 .53:
-  %".56" = load i32, i32* %"i"
-  %".57" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"expr", i32 0, i32 %".56"
-  %".58" = load i8, i8* %".57"
-  %".59" = icmp eq i8 %".58", 43
-  br i1 %".59", label %".60", label %".61"
+  %".58" = load i32, i32* %"i"
+  %".59" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"expr", i32 0, i32 %".58"
+  %".60" = load i8, i8* %".59"
+  %".61" = icmp eq i8 %".60", 43
+  br i1 %".61", label %".56", label %".57"
 .54:
   br label %".46"
-.60:
+.56:
   br label %".63"
-.61:
-  %".133" = load i32, i32* %"i"
-  %".134" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"expr", i32 0, i32 %".133"
-  %".135" = load i8, i8* %".134"
-  %".136" = icmp eq i8 %".135", 45
-  br i1 %".136", label %".137", label %".138"
+.57:
+  %".135" = load i32, i32* %"i"
+  %".136" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"expr", i32 0, i32 %".135"
+  %".137" = load i8, i8* %".136"
+  %".138" = icmp eq i8 %".137", 45
+  br i1 %".138", label %".133", label %".134"
 .63:
   %".67" = load i32, i32* %"st_op_pt"
   %".68" = icmp sge i32 %".67", 0
@@ -115,11 +115,11 @@ main.entry:
   store i32 %".130", i32* %"i"
   br label %".54"
 .80:
-  %".83" = load i32, i32* %"st_op_pt"
-  %".84" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"st_op", i32 0, i32 %".83"
-  %".85" = load i8, i8* %".84"
-  %".86" = icmp eq i8 %".85", 42
-  br i1 %".86", label %".87", label %".88"
+  %".85" = load i32, i32* %"st_op_pt"
+  %".86" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"st_op", i32 0, i32 %".85"
+  %".87" = load i8, i8* %".86"
+  %".88" = icmp eq i8 %".87", 42
+  br i1 %".88", label %".83", label %".84"
 .81:
   %".116" = load i32, i32* %"st_num_pt"
   %".117" = sub i32 %".116", 1
@@ -128,7 +128,7 @@ main.entry:
   %".120" = sub i32 %".119", 1
   store i32 %".120", i32* %"st_op_pt"
   br label %".63"
-.87:
+.83:
   %".90" = load i32, i32* %"st_num_pt"
   %".91" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".90"
   %".92" = load i32, i32* %".91"
@@ -142,7 +142,7 @@ main.entry:
   %".100" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".99"
   store i32 %".97", i32* %".100"
   br label %".81"
-.88:
+.84:
   %".103" = load i32, i32* %"st_num_pt"
   %".104" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".103"
   %".105" = load i32, i32* %".104"
@@ -156,14 +156,14 @@ main.entry:
   %".113" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".112"
   store i32 %".110", i32* %".113"
   br label %".81"
-.137:
+.133:
   br label %".140"
-.138:
-  %".210" = load i32, i32* %"i"
-  %".211" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"expr", i32 0, i32 %".210"
-  %".212" = load i8, i8* %".211"
-  %".213" = icmp eq i8 %".212", 42
-  br i1 %".213", label %".214", label %".215"
+.134:
+  %".212" = load i32, i32* %"i"
+  %".213" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"expr", i32 0, i32 %".212"
+  %".214" = load i8, i8* %".213"
+  %".215" = icmp eq i8 %".214", 42
+  br i1 %".215", label %".210", label %".211"
 .140:
   %".144" = load i32, i32* %"st_op_pt"
   %".145" = icmp sge i32 %".144", 0
@@ -192,11 +192,11 @@ main.entry:
   store i32 %".207", i32* %"i"
   br label %".54"
 .157:
-  %".160" = load i32, i32* %"st_op_pt"
-  %".161" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"st_op", i32 0, i32 %".160"
-  %".162" = load i8, i8* %".161"
-  %".163" = icmp eq i8 %".162", 42
-  br i1 %".163", label %".164", label %".165"
+  %".162" = load i32, i32* %"st_op_pt"
+  %".163" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"st_op", i32 0, i32 %".162"
+  %".164" = load i8, i8* %".163"
+  %".165" = icmp eq i8 %".164", 42
+  br i1 %".165", label %".160", label %".161"
 .158:
   %".193" = load i32, i32* %"st_num_pt"
   %".194" = sub i32 %".193", 1
@@ -205,7 +205,7 @@ main.entry:
   %".197" = sub i32 %".196", 1
   store i32 %".197", i32* %"st_op_pt"
   br label %".140"
-.164:
+.160:
   %".167" = load i32, i32* %"st_num_pt"
   %".168" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".167"
   %".169" = load i32, i32* %".168"
@@ -219,7 +219,7 @@ main.entry:
   %".177" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".176"
   store i32 %".174", i32* %".177"
   br label %".158"
-.165:
+.161:
   %".180" = load i32, i32* %"st_num_pt"
   %".181" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".180"
   %".182" = load i32, i32* %".181"
@@ -233,7 +233,7 @@ main.entry:
   %".190" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".189"
   store i32 %".187", i32* %".190"
   br label %".158"
-.214:
+.210:
   %".217" = load i32, i32* %"st_op_pt"
   %".218" = add i32 %".217", 1
   store i32 %".218", i32* %"st_op_pt"
@@ -244,13 +244,13 @@ main.entry:
   %".224" = sub i32 %".223", 1
   store i32 %".224", i32* %"i"
   br label %".54"
-.215:
-  %".227" = load i32, i32* %"i"
-  %".228" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"expr", i32 0, i32 %".227"
-  %".229" = load i8, i8* %".228"
-  %".230" = icmp eq i8 %".229", 47
-  br i1 %".230", label %".231", label %".232"
-.231:
+.211:
+  %".229" = load i32, i32* %"i"
+  %".230" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"expr", i32 0, i32 %".229"
+  %".231" = load i8, i8* %".230"
+  %".232" = icmp eq i8 %".231", 47
+  br i1 %".232", label %".227", label %".228"
+.227:
   %".234" = load i32, i32* %"st_op_pt"
   %".235" = add i32 %".234", 1
   store i32 %".235", i32* %"st_op_pt"
@@ -261,13 +261,13 @@ main.entry:
   %".241" = sub i32 %".240", 1
   store i32 %".241", i32* %"i"
   br label %".54"
-.232:
-  %".244" = load i32, i32* %"i"
-  %".245" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"expr", i32 0, i32 %".244"
-  %".246" = load i8, i8* %".245"
-  %".247" = icmp eq i8 %".246", 41
-  br i1 %".247", label %".248", label %".249"
-.248:
+.228:
+  %".246" = load i32, i32* %"i"
+  %".247" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"expr", i32 0, i32 %".246"
+  %".248" = load i8, i8* %".247"
+  %".249" = icmp eq i8 %".248", 41
+  br i1 %".249", label %".244", label %".245"
+.244:
   %".251" = load i32, i32* %"st_op_pt"
   %".252" = add i32 %".251", 1
   store i32 %".252", i32* %"st_op_pt"
@@ -278,15 +278,15 @@ main.entry:
   %".258" = sub i32 %".257", 1
   store i32 %".258", i32* %"i"
   br label %".54"
-.249:
-  %".261" = load i32, i32* %"i"
-  %".262" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"expr", i32 0, i32 %".261"
-  %".263" = load i8, i8* %".262"
-  %".264" = icmp eq i8 %".263", 40
-  br i1 %".264", label %".265", label %".266"
-.265:
+.245:
+  %".263" = load i32, i32* %"i"
+  %".264" = getelementptr inbounds [1000 x i8], [1000 x i8]* %"expr", i32 0, i32 %".263"
+  %".265" = load i8, i8* %".264"
+  %".266" = icmp eq i8 %".265", 40
+  br i1 %".266", label %".261", label %".262"
+.261:
   br label %".268"
-.266:
+.262:
   store i32 0, i32* %"num"
   store i32 1, i32* %"k"
   br label %".373"
@@ -315,15 +315,15 @@ main.entry:
   store i32 %".368", i32* %"i"
   br label %".54"
 .284:
-  %".287" = load i8, i8* %"ch"
-  %".288" = icmp eq i8 %".287", 43
-  br i1 %".288", label %".289", label %".290"
+  %".289" = load i8, i8* %"ch"
+  %".290" = icmp eq i8 %".289", 43
+  br i1 %".290", label %".287", label %".288"
 .285:
   %".360" = load i32, i32* %"st_num_pt"
   %".361" = sub i32 %".360", 1
   store i32 %".361", i32* %"st_num_pt"
   br label %".268"
-.289:
+.287:
   %".292" = load i32, i32* %"st_num_pt"
   %".293" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".292"
   %".294" = load i32, i32* %".293"
@@ -337,11 +337,11 @@ main.entry:
   %".302" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".301"
   store i32 %".299", i32* %".302"
   br label %".285"
-.290:
-  %".305" = load i8, i8* %"ch"
-  %".306" = icmp eq i8 %".305", 45
-  br i1 %".306", label %".307", label %".308"
-.307:
+.288:
+  %".307" = load i8, i8* %"ch"
+  %".308" = icmp eq i8 %".307", 45
+  br i1 %".308", label %".305", label %".306"
+.305:
   %".310" = load i32, i32* %"st_num_pt"
   %".311" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".310"
   %".312" = load i32, i32* %".311"
@@ -355,11 +355,11 @@ main.entry:
   %".320" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".319"
   store i32 %".317", i32* %".320"
   br label %".285"
-.308:
-  %".323" = load i8, i8* %"ch"
-  %".324" = icmp eq i8 %".323", 42
-  br i1 %".324", label %".325", label %".326"
-.325:
+.306:
+  %".325" = load i8, i8* %"ch"
+  %".326" = icmp eq i8 %".325", 42
+  br i1 %".326", label %".323", label %".324"
+.323:
   %".328" = load i32, i32* %"st_num_pt"
   %".329" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".328"
   %".330" = load i32, i32* %".329"
@@ -373,11 +373,11 @@ main.entry:
   %".338" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".337"
   store i32 %".335", i32* %".338"
   br label %".285"
-.326:
-  %".341" = load i8, i8* %"ch"
-  %".342" = icmp eq i8 %".341", 47
-  br i1 %".342", label %".343", label %".344"
-.343:
+.324:
+  %".343" = load i8, i8* %"ch"
+  %".344" = icmp eq i8 %".343", 47
+  br i1 %".344", label %".341", label %".342"
+.341:
   %".346" = load i32, i32* %"st_num_pt"
   %".347" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".346"
   %".348" = load i32, i32* %".347"
@@ -391,7 +391,7 @@ main.entry:
   %".356" = getelementptr inbounds [1000 x i32], [1000 x i32]* %"st_num", i32 0, i32 %".355"
   store i32 %".353", i32* %".356"
   br label %".285"
-.344:
+.342:
   br label %".285"
 .373:
   %".377" = load i32, i32* %"i"

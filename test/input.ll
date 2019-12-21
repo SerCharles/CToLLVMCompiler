@@ -2,8 +2,8 @@
 target triple = "x86_64-pc-linux-gnu"
 target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
 
-@"a" = common global i32 i32 1
-@"b" = common global i8 i8 49
+@"a" = internal global i32 1
+@"b" = internal global i8 49
 define i32 @"main"() 
 {
 main.entry:

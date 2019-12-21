@@ -130,7 +130,7 @@ class Visitor(simpleCVisitor):
             #全局变量
             if self.SymbolTable.JudgeWhetherGlobal() == True:
                 NewVariable = ir.GlobalVariable(self.Module, VariableType, name = IDname)
-                NewVariable.linkage = 'common'
+                NewVariable.linkage = 'internal'
                 NewVariable.initializer = ir.Constant(CurrentType, None)
             #局部变量
             else:
@@ -145,7 +145,7 @@ class Visitor(simpleCVisitor):
             #全局变量
             if self.SymbolTable.JudgeWhetherGlobal() == True:
                 NewVariable = ir.GlobalVariable(self.Module, CurrentType, name = IDname)
-                NewVariable.linkage = 'common'
+                NewVariable.linkage = 'internal'
                 NewVariable.initializer = ir.Constant(CurrentType, None)
             else:
                 TheBuilder = self.Builders[-1]
@@ -515,11 +515,10 @@ class Visitor(simpleCVisitor):
             IDname = ctx.getChild(i).getText()
             if self.SymbolTable.JudgeWhetherGlobal() == True:   
                 NewVariable = ir.GlobalVariable(self.Module, ParameterType, name = IDname)
-                NewVariable.linkage = 'common'
+                NewVariable.linkage = 'internal'
             else:
                 TheBuilder = self.Builders[-1]
                 NewVariable = TheBuilder.alloca(ParameterType, name = IDname)
-
             TheVariable = {}
             TheVariable["Type"] = ParameterType
             TheVariable["Name"] = NewVariable
@@ -535,7 +534,8 @@ class Visitor(simpleCVisitor):
                 Value = self.visit(ctx.getChild(i + 2))
                 if self.SymbolTable.JudgeWhetherGlobal() == True:   
                     #全局变量
-                    NewVariable.initializer = ir.Constant(Value['type'], Value['name'])
+                    NewVariable.initializer = ir.Constant(Value['type'], Value['name'].constant)
+                    #print(Value['name'].constant)
                 else:
                     #局部变量，可能有强制类型转换
                     Value = self.assignConvert(Value, ParameterType)
@@ -557,7 +557,7 @@ class Visitor(simpleCVisitor):
         if self.SymbolTable.JudgeWhetherGlobal() == True:   
             #全局变量
             NewVariable = ir.GlobalVariable(self.Module, ir.ArrayType(Type, Length), name = IDname)
-            NewVariable.linkage = 'common'
+            NewVariable.linkage = 'internal'
         else:
             TheBuilder = self.Builders[-1]
             NewVariable = TheBuilder.alloca(ir.ArrayType(Type, Length), name = IDname)
