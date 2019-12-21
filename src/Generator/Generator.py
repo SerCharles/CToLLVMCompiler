@@ -5,7 +5,6 @@ from Parser.simpleCVisitor import simpleCVisitor
 from Parser.simpleCLexer import simpleCLexer
 from llvmlite import ir
 from Generator.SymbolTable import SymbolTable, Structure
-#from Generator.Constants import Constants
 from Generator.SyntaxErrorListener import syntaxErrorListener
 
 double = ir.DoubleType()
@@ -113,7 +112,6 @@ class Visitor(simpleCVisitor):
                     ParameterTypeLine.append(ir.ArrayType(ParameterType, ArrayInfo['length']))
                 i = i + 2
             return ParameterTypeLine, ParameterNameLine
-
 
     def visitStructInitBlock(self, ctx:simpleCParser.StructInitBlockContext):
         '''
@@ -271,7 +269,6 @@ class Visitor(simpleCVisitor):
         self.SymbolTable.QuitScope()
         return
 
-
     def visitParams(self, ctx:simpleCParser.ParamsContext):
         '''
         语法规则：params : param (','param)* |;
@@ -289,7 +286,6 @@ class Visitor(simpleCVisitor):
             i += 2
         return ParameterList
 
-
     def visitParam(self, ctx:simpleCParser.ParamContext):
         '''
         语法规则：param : mType mID;
@@ -300,7 +296,6 @@ class Visitor(simpleCVisitor):
         IDname = ctx.getChild(1).getText()
         Result = {'type': Type, 'IDname': IDname}
         return Result
-
 
     def visitFuncBody(self, ctx:simpleCParser.FuncBodyContext):
         '''
@@ -313,7 +308,6 @@ class Visitor(simpleCVisitor):
             self.visit(ctx.getChild(index))
         self.SymbolTable.QuitScope()
         return
-
 
     def visitBody(self, ctx:simpleCParser.BodyContext):
         '''
@@ -612,67 +606,82 @@ class Visitor(simpleCVisitor):
         return Result
 
     #TODO
-    #条件分支相关函数
+    def visitCondition(self, ctx:simpleCParser.ConditionContext):
+        '''
+        语法规则：condition :  expr;
+        描述：判断条件
+        返回：无
+        '''
+        result = self.visit(ctx.getChild(0))
+        return self.toBoolean(result, notFlag=False)
+
     def visitIfBlocks(self, ctx:simpleCParser.IfBlocksContext):
         '''
         语法规则：ifBlocks : ifBlock (elifBlock)* (elseBlock)?;
         描述：if语句块
         返回：无
         '''
-        builder = self.Builders[-1]
-        total = ctx.getChildCount()
-        ifblocks = builder.append_basic_block()
-        endif = builder.append_basic_block()
-        builder.branch(ifblocks)
+        #增加两个block，对应If分支和If结束后的分支
+        TheBuilder = self.Builders[-1]
+        IfBlock = TheBuilder.append_basic_block()
+        EndifBlock = TheBuilder.append_basic_block()
+        TheBuilder.branch(IfBlock)
 
+        #载入IfBlock
         self.Blocks.pop()
         self.Builders.pop()
-        self.Blocks.append(ifblocks)
-        builder = ir.IRBuilder(ifblocks)
-        self.Builders.append(builder)
+        self.Blocks.append(IfBlock)
+        self.Builders.append(ir.IRBuilder(IfBlock))
 
         tmp = self.EndifBlock
-        self.EndifBlock = endif
-        for index in range(total):
-            self.visit(ctx.getChild(index))
-
+        self.EndifBlock = EndifBlock
+        Length = ctx.getChildCount()
+        for i in range(Length):
+            self.visit(ctx.getChild(i))  #分别处理每个if ,elseif, else块
         self.EndifBlock = tmp
 
-        bl = self.Blocks.pop()
-        bu = self.Builders.pop()
-        if not bl.is_terminated:
-            bu.branch(endif)
+        #结束后导向EndIf块
+        blockTemp = self.Blocks.pop()
+        builderTemp = self.Builders.pop()
+        if not blockTemp.is_terminated:
+            builderTemp.branch(EndifBlock)
 
-        self.Blocks.append(endif)
-        self.Builders.append(ir.IRBuilder(endif))
+        self.Blocks.append(EndifBlock)
+        self.Builders.append(ir.IRBuilder(EndifBlock))
         return
 
 
     def visitIfBlock(self, ctx:simpleCParser.IfBlockContext):
+        '''
+        语法规则：ifBlock : 'if' '(' condition ')' '{' body '}';
+        描述：单一if语句块
+        返回：无
+        '''
+        #在If块中，有True和False两种可能的导向
         self.SymbolTable.EnterScope()
-        res = self.visit(ctx.getChild(2))
-        builder = self.Builders[-1]
-        new_block_true = builder.append_basic_block()
-        new_block_false = builder.append_basic_block()
-        builder.cbranch(res['name'], new_block_true, new_block_false)
+        TheBuilder = self.Builders[-1]
+        TrueBlock = TheBuilder.append_basic_block()
+        FalseBlock = TheBuilder.append_basic_block()
 
+        #根据condition结果转向某个代码块
+        result = self.visit(ctx.getChild(2))
+        TheBuilder.cbranch(result['name'], TrueBlock, FalseBlock)
+
+        #如果condition为真，处理TrueBlock,即body部分
         self.Blocks.pop()
         self.Builders.pop()
-
-        self.Blocks.append(new_block_true)
-        self.Builders.append(ir.IRBuilder(new_block_true))
-
+        self.Blocks.append(TrueBlock)
+        self.Builders.append(ir.IRBuilder(TrueBlock))
         self.visit(ctx.getChild(5)) # body
 
         if not self.Blocks[-1].is_terminated:
-            builder = self.Builders[-1]
-            builder.branch(self.EndifBlock)
+            self.Builders[-1].branch(self.EndifBlock)
 
+        #处理condition为假的代码部分
         self.Blocks.pop()
         self.Builders.pop()
-
-        self.Blocks.append(new_block_false)
-        self.Builders.append(ir.IRBuilder(new_block_false))
+        self.Blocks.append(FalseBlock)
+        self.Builders.append(ir.IRBuilder(FalseBlock))
         self.SymbolTable.QuitScope()
         return
 
@@ -683,30 +692,31 @@ class Visitor(simpleCVisitor):
         描述：单一elseif语句块
         返回：无
         '''
+        #在ElseIf块中，有True和False两种可能的导向
         self.SymbolTable.EnterScope()
-        res = self.visit(ctx.getChild(3))
-        builder = self.Builders[-1]
-        new_block_true = builder.append_basic_block()
-        new_block_false = builder.append_basic_block()
-        builder.cbranch(res['name'], new_block_true, new_block_false)
+        TheBuilder = self.Builders[-1]
+        TrueBlock = TheBuilder.append_basic_block()
+        FalseBlock = TheBuilder.append_basic_block()
 
+        #根据condition结果转向某个代码块
+        result = self.visit(ctx.getChild(3))
+        TheBuilder.cbranch(result['name'], TrueBlock, FalseBlock)
+        
+        #如果condition为真，处理TrueBlock,即body部分
         self.Blocks.pop()
         self.Builders.pop()
-
-        self.Blocks.append(new_block_true)
-        self.Builders.append(ir.IRBuilder(new_block_true))
-
+        self.Blocks.append(TrueBlock)
+        self.Builders.append(ir.IRBuilder(TrueBlock))
         self.visit(ctx.getChild(6)) # body
 
         if not self.Blocks[-1].is_terminated:
-            builder = self.Builders[-1]
-            builder.branch(self.EndifBlock)
-
+            self.Builders[-1].branch(self.EndifBlock)
+        
+        #处理condition为假的代码部分
         self.Blocks.pop()
         self.Builders.pop()
-
-        self.Blocks.append(new_block_false)
-        self.Builders.append(ir.IRBuilder(new_block_false))
+        self.Blocks.append(FalseBlock)
+        self.Builders.append(ir.IRBuilder(FalseBlock))
         self.SymbolTable.QuitScope()
         return
 
@@ -717,23 +727,11 @@ class Visitor(simpleCVisitor):
         描述：单一else语句块
         返回：无
         '''
+        #Else分块直接处理body内容
         self.SymbolTable.EnterScope()
         self.visit(ctx.getChild(2)) # body
         self.SymbolTable.QuitScope()
         return
-
-
-    def visitCondition(self, ctx:simpleCParser.ConditionContext):
-        '''
-        语法规则：condition :  expr;
-        描述：判断条件
-        返回：无
-        '''
-
-        ret = self.visit(ctx.getChild(0))
-        ret = self.toBoolean(ret, notFlag=False)
-        return ret
-
 
     def visitWhileBlock(self, ctx:simpleCParser.WhileBlockContext):
         '''
@@ -741,38 +739,39 @@ class Visitor(simpleCVisitor):
         描述：while语句块
         返回：无
         '''
-
         self.SymbolTable.EnterScope()
-        builder = self.Builders[-1]
-        whileCond = builder.append_basic_block()
-        whileMain = builder.append_basic_block()
-        whileEnd = builder.append_basic_block()
-        builder.branch(whileCond)
+        TheBuilder = self.Builders[-1]
+        #while语句分为三个分块
+        WhileCondition = TheBuilder.append_basic_block()
+        WhileBody = TheBuilder.append_basic_block()
+        WhileEnd = TheBuilder.append_basic_block()
 
+        #首先执行Condition分块
+        TheBuilder.branch(WhileCondition)
         self.Blocks.pop()
         self.Builders.pop()
-        self.Blocks.append(whileCond)
-        self.Builders.append(ir.IRBuilder(whileCond))
-
-        cond = self.visit(ctx.getChild(2)) # condition
-
-        builder = self.Builders[-1]
-        builder.cbranch(cond['name'], whileMain, whileEnd)
+        self.Blocks.append(WhileCondition)
+        self.Builders.append(ir.IRBuilder(WhileCondition))
+        
+        #根据condition结果决定执行body还是结束while循环
+        result = self.visit(ctx.getChild(2)) # condition
+        self.Builders[-1].cbranch(result['name'], WhileBody, WhileEnd)
+        
+        #执行body
         self.Blocks.pop()
         self.Builders.pop()
-
-
-        self.Blocks.append(whileMain)
-        self.Builders.append(ir.IRBuilder(whileMain))
+        self.Blocks.append(WhileBody)
+        self.Builders.append(ir.IRBuilder(WhileBody))
         self.visit(ctx.getChild(5)) # body
 
-        builder = self.Builders[-1]
-        builder.branch(whileCond)
+        #执行body后重新判断condition
+        self.Builders[-1].branch(WhileCondition)
+
+        #结束while循环
         self.Blocks.pop()
         self.Builders.pop()
-
-        self.Blocks.append(whileEnd)
-        self.Builders.append(ir.IRBuilder(whileEnd))
+        self.Blocks.append(WhileEnd)
+        self.Builders.append(ir.IRBuilder(WhileEnd))
         self.SymbolTable.QuitScope()
         return
 
@@ -784,45 +783,47 @@ class Visitor(simpleCVisitor):
         返回：无
         '''
         self.SymbolTable.EnterScope()
-        self.visit(ctx.getChild(2)) # initial block
-
-        builder = self.Builders[-1]
-        forCond = builder.append_basic_block()
-        forMain = builder.append_basic_block()
-        forEnd = builder.append_basic_block()
-        builder.branch(forCond)
-
+        
+        #for循环首先初始化局部变量
+        self.visit(ctx.getChild(2))
+        #for循环的三种block
+        TheBuilder = self.Builders[-1]
+        ForCondition = TheBuilder.append_basic_block()
+        ForBody = TheBuilder.append_basic_block()
+        ForEnd = TheBuilder.append_basic_block()
+       
+        #判断condition
+        TheBuilder.branch(ForCondition)
         self.Blocks.pop()
         self.Builders.pop()
-        self.Blocks.append(forCond)
-        self.Builders.append(ir.IRBuilder(forCond))
-
-        cond = self.visit(ctx.getChild(4)) # condition block
-
-        builder = self.Builders[-1]
-        builder.cbranch(cond['name'], forMain, forEnd)
+        self.Blocks.append(ForCondition)
+        self.Builders.append(ir.IRBuilder(ForCondition))
+                
+        #根据condition结果决定跳转到body或者结束
+        result = self.visit(ctx.getChild(4)) # condition block
+        self.Builders[-1].cbranch(result['name'], ForBody, ForEnd)
         self.Blocks.pop()
         self.Builders.pop()
+        self.Blocks.append(ForBody)
+        self.Builders.append(ir.IRBuilder(ForBody))
 
-
-        self.Blocks.append(forMain)
-        self.Builders.append(ir.IRBuilder(forMain))
-
+        #处理body
         if (ctx.getChildCount() == 11):
             self.visit(ctx.getChild(9)) # main body
-
+        
+        #处理step语句
         self.visit(ctx.getChild(6)) # step block
+        
+        #一次循环后重新判断condition
+        self.Builders[-1].branch(ForCondition)
 
-        builder = self.Builders[-1]
-        builder.branch(forCond)
+        #结束循环
         self.Blocks.pop()
         self.Builders.pop()
-
-        self.Blocks.append(forEnd)
-        self.Builders.append(ir.IRBuilder(forEnd))
+        self.Blocks.append(ForEnd)
+        self.Builders.append(ir.IRBuilder(ForEnd))
         self.SymbolTable.QuitScope()
         return
-
 
     def visitFor1Block(self, ctx:simpleCParser.For1BlockContext):
         '''
@@ -830,21 +831,22 @@ class Visitor(simpleCVisitor):
         描述：for语句块的第一个参数
         返回：无
         '''
-        total = ctx.getChildCount()
-        if total == 0:
+        #初始化参数为空
+        Length = ctx.getChildCount()
+        if Length == 0:
             return
 
-        tmp_need_load = self.WhetherNeedLoad
+        TmpNeedLoad = self.WhetherNeedLoad
         self.WhetherNeedLoad = False
-        res0 = self.visit(ctx.getChild(0)) # mID
-        self.WhetherNeedLoad = tmp_need_load
+        result0 = self.visit(ctx.getChild(0)) # mID
+        self.WhetherNeedLoad = TmpNeedLoad
+        
+        #访问表达式
+        result1 = self.visit(ctx.getChild(2)) # expr
+        result1 = self.assignConvert(result1, result0['type'])
+        self.Builders[-1].store(result1['name'], result0['name'])
 
-        res1 = self.visit(ctx.getChild(2)) # expr
-        res1 = self.assignConvert(res1, res0['type'])
-        builder = self.Builders[-1]
-        builder.store(res1['name'], res0['name'])
-
-        if total > 3:
+        if Length > 3:
             self.visit(ctx.getChild(4))
         return
 
@@ -855,21 +857,20 @@ class Visitor(simpleCVisitor):
         描述：for语句块的第三个参数
         返回：无
         '''
-        total = ctx.getChildCount()
-        if total == 0:
+        Length = ctx.getChildCount()
+        if Length == 0:
             return
-
-        tmp_need_load = self.WhetherNeedLoad
+            
+        TmpNeedLoad = self.WhetherNeedLoad
         self.WhetherNeedLoad = False
-        res0 = self.visit(ctx.getChild(0)) # mID
-        self.WhetherNeedLoad = tmp_need_load
+        result0 = self.visit(ctx.getChild(0))
+        self.WhetherNeedLoad = TmpNeedLoad
 
-        res1 = self.visit(ctx.getChild(2)) # expr
-        res1 = self.assignConvert(res1, res0['type'])
-        builder = self.Builders[-1]
-        builder.store(res1['name'], res0['name'])
+        result1 = self.visit(ctx.getChild(2))
+        result1 = self.assignConvert(result1, result0['type'])
+        self.Builders[-1].store(result1['name'], result0['name'])
 
-        if total > 3:
+        if Length > 3:
             self.visit(ctx.getChild(4))
         return
 
@@ -880,23 +881,25 @@ class Visitor(simpleCVisitor):
         描述：return语句块
         返回：无
         '''
-        builder = self.Builders[-1]
-
+        #返回空
         if ctx.getChildCount() == 2:
-            ret = builder.ret_void()
+            ret = self.Builders[-1].ret_void()
             return {
                     'type': void,
                     'const': False,
                     'name': ret
             }
 
-        res = self.visit(ctx.getChild(1))
-        ret = builder.ret(res['name'])
+        #访问返回值
+        result = self.visit(ctx.getChild(1))
+        ret = self.Builders[-1].ret(result['name'])
         return {
                 'type': void,
                 'const': False,
                 'name': ret
         }
+
+
 
     #运算和表达式求值，类型转换相关函数
     def assignConvert(self, a, dtype):
