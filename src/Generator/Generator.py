@@ -5,7 +5,8 @@ from Parser.simpleCVisitor import simpleCVisitor
 from Parser.simpleCLexer import simpleCLexer
 from llvmlite import ir
 from Generator.SymbolTable import SymbolTable, Structure
-from Generator.SyntaxErrorListener import syntaxErrorListener
+from Generator.ErrorListener import syntaxErrorListener
+from Generator.ErrorListener import SemanticError
 
 double = ir.DoubleType()
 int1 = ir.IntType(1)
@@ -85,7 +86,7 @@ class Visitor(simpleCVisitor):
         #存储结构体
         TheResult = self.Structure.AddItem(NewStructName, ParameterNameList, ParameterTypeList)
         if TheResult["result"] != "success":
-            raise Exception(TheResult["reason"])
+            raise SemanticError(ctx=ctx,msg=TheResult["reason"])
 
     def visitStructParam(self, ctx:simpleCParser.StructParamContext):
         '''
@@ -158,8 +159,7 @@ class Visitor(simpleCVisitor):
         TheVariable["Name"] = NewVariable
         TheResult = self.SymbolTable.AddItem(IDname, TheVariable)
         if TheResult["result"] != "success":
-            #TODO 处理这个异常
-            raise Exception(TheResult["reason"])
+            raise SemanticError(ctx=ctx, msg=TheResult["reason"])
         return
 
     def visitStructMember(self, ctx:simpleCParser.StructMemberContext):
@@ -168,7 +168,6 @@ class Visitor(simpleCVisitor):
         描述：获取结构体成员变量信息
         返回：无
         '''
-        #TODO：修改g4
         TheBuilder = self.Builders[-1]
         #处理成员元素是单一变量的情况，TODO g4修改后删除
         if ctx.getChild(2).getChildCount() == 1: # mID
@@ -182,8 +181,7 @@ class Visitor(simpleCVisitor):
             FatherName = StructInfo["name"]
             Index = self.Structure.GetMemberIndex(StructName, ctx.getChild(2).getText())
             if Index == None:
-                #TODO 处理这个异常
-                raise Exception("未找到这个变量")
+                raise SemanticError(ctx=ctx, msg="未找到这个变量")
             Type = self.Structure.GetMemberType(StructName, ctx.getChild(2).getText())
 
             zero = ir.Constant(int32, 0)
@@ -233,8 +231,7 @@ class Visitor(simpleCVisitor):
 
         #判断重定义，存储函数
         if FunctionName in self.Functions:
-            #TODO 更合理的异常处理
-            raise Exception("函数重定义错误！")
+            raise SemanticError(ctx=ctx,msg="函数重定义错误！")
         else:
             self.Functions[FunctionName] = LLVMFunction
 
@@ -256,8 +253,7 @@ class Visitor(simpleCVisitor):
             TheVariable["Name"] = NewVariable
             TheResult = self.SymbolTable.AddItem(ParameterList[i]['IDname'], TheVariable)
             if TheResult["result"] != "success":
-                #TODO 处理这个异常
-                raise Exception(TheResult["reason"])
+                raise SemanticError(ctx=ctx,msg=TheResult["reason"])
 
         #处理函数body
         self.visit(ctx.getChild(6)) # func body
@@ -486,8 +482,7 @@ class Visitor(simpleCVisitor):
             Result = {'type': TheFunction.function_type.return_type, 'name': ReturnVariableName}
             return Result
         else:
-            raise Exception("函数未定义！")
-            #TODO 处理异常
+            raise SemanticError(ctx=ctx,msg="函数未定义！")
 
     #语句块相关函数
     def visitBlock(self, ctx:simpleCParser.BlockContext):
@@ -524,8 +519,7 @@ class Visitor(simpleCVisitor):
             TheVariable["Name"] = NewVariable
             TheResult = self.SymbolTable.AddItem(IDname, TheVariable)
             if TheResult["result"] != "success":
-                #TODO 处理这个异常
-                raise Exception(TheResult["reason"])
+                raise SemanticError(ctx=ctx,msg=TheResult["reason"])
 
             if ctx.getChild(i + 1).getText() != '=':
                 i += 2
@@ -567,8 +561,7 @@ class Visitor(simpleCVisitor):
         TheVariable["Name"] = NewVariable
         TheResult = self.SymbolTable.AddItem(IDname, TheVariable)
         if TheResult["result"] != "success":
-            #TODO 处理这个异常
-            raise Exception(TheResult["reason"])
+            raise SemanticError(ctx=ctx,msg=TheResult["reason"])
         return
 
     def visitAssignBlock(self, ctx:simpleCParser.AssignBlockContext):
@@ -581,8 +574,7 @@ class Visitor(simpleCVisitor):
         Length = ctx.getChildCount()
         IDname = ctx.getChild(0).getText()
         if not '[' in IDname and self.SymbolTable.JudgeExist(IDname) == False:
-            #TODO 异常处理
-            raise Exception("变量未定义！")
+            raise SemanticError(ctx=ctx,msg="变量未定义！")
 
         #待赋值结果 
         ValueToBeAssigned = self.visit(ctx.getChild(Length - 2))
@@ -1285,7 +1277,7 @@ class Visitor(simpleCVisitor):
                     'struct_name': res['struct_name'] if 'struct_name' in res else None
             }
         else:   # error!
-            pass
+            raise SemanticError(ctx=ctx,msg="类型错误")
 
     def visitArgument(self, ctx:simpleCParser.ArgumentContext):
         '''
