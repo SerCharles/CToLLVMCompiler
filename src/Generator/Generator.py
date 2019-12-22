@@ -1091,7 +1091,7 @@ class Visitor(simpleCVisitor):
         elif self.isInteger(b['type']) and a['type'] == double:
             b = convertIDS(b, a['type'])
         else:
-            pass
+            raise SemanticError(ctx=ctx,msg="类型不匹配")
         return a, b
 
 
