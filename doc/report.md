@@ -20,8 +20,7 @@ pip install llvmlite
 
 ### 2.运行说明
 
-1.在src目录下命令行输入 ```python QuickTest.py``` 测试全部五个程序样例；
-2.也可以运行 ```python main.py [filename]```
+1.在src目录下命令行输入 ```python QuickTest.py``` 编译全部五个程序样例；也可以运行 ```python main.py [filename]``` 编译特定文件
 
 [filename]列表如下：
 ```
@@ -29,10 +28,57 @@ test/palindrome.c
 test/kmp.c
 test/calc.c
 test/quickSort.c
-test/
+test/biTree.c
 ```
 
-## 二、实现方法与重难点简述
+2.在LLVM安装好的环境下,src目录下运行([ll filename]将上述[filename]的后缀".c"改为".ll"即可)
+```
+lli [ll filename]
+```
+
+
+## 二、代码结构
+
+* Generator
+  > SymbolTable.py  符号表的实现
+  
+  > Generator.py  语义分析实现，由C代码转到LLVM IR代码
+  
+  > Constants.py  错误信息
+  
+  > ErrorListener.py  语法、语义错误处理
+  
+* Parser
+  > simpleC.g4  C语言部分语法实现，来自ANTLR官方对C语言的支持
+  
+  > simpleC.interp   本项及以下5项由antlr4自动生成
+  
+  > simpleC.tokens
+  
+  > simpleCLexer.interp
+  
+  > simpleCLexer.py  用于词法分析
+  
+  > simpleCLexer.tokens
+  
+  > simpleCListener.py
+  
+  > simpleCParser.py  用于语法分析
+  
+  > simpleCVisitor.py  语义分析基于ANTLR的Visitor模式进行(Listener模式与作业需求匹配不佳)
+  
+* test
+  > palindrome.c  回文判断，可验证基本实现
+  
+  > kmp.c  KMP算法，可验证基本实现
+  
+  > calc.c  四则运算，可验证复杂语义分析实现
+  
+  > quickSort.c  快速排序，可验证复杂语义分析实现
+  
+  > biTree.c  基于结构体的二叉树前序遍历，可验证结构体、结构体数组相关实现
+
+## 三、实现方法与重难点简述
 
 ### 1.变量，结构体，函数的管理
 
@@ -68,7 +114,6 @@ LLVMName = Builder.alloca(Type, name = CName)
 ```
 
 全局，局部变量在LLVM里分别用以上两种方法实现。其中LLVMName代表其在LLVM中的名称，Cname代表其在C中名称，Type是类型。如果是数组，结构体，也一样，只是类型有所不同。结构体变量类型依赖结构体名称，变量名称和类型，数组变量类型依赖数组类型和长度。
-
 
 
 ### 2. 函数
@@ -117,4 +162,27 @@ ReturnVariable = Builder.call(LLVMFunction, ParameterList)
 对于for循环，其基本语法是`for(init; condition ; step)`。其中init初始化语句可以为空，也可以是多条用`,`分割的语句。其逻辑顺序为，在循环开始前先执行init语句，然后判定condition，若满足则执行循环的主题body，随后step，一次循环后再次判定condition，进行下一次循环。
 
 对于while循环，基本语法为`while(condition)`，先判断condition，如果condition为真则执行body，执行完成后再次跳转到condition判断，进行下一次循环，直到不满足condition跳出循环语句。
+
+### 4. 错误处理
+
+**4.1 语法错误**
+
+我们使用ErrorListener.py中的syntaxErrorListener()统一监听SimpleCParser在进行语法分析时产生的语法错误，获取其详细信息后反馈。
+
+**4.2 语义错误**
+
+我们使用ErrorListener.py中的SemanticError()统一监听Generator()各语义分析函数返回的错误，相关语义分析函数遇到语义错误时执行如下：
+```
+raise SemanticError(ctx=ctx,msg=TheResult["reason"])
+```
+* 目前支持被检测的语义错误有：
+* 变量名重定义、未定义问题
+* 结构体定义时格式错误
+* 结构体中变量无法检索
+* 函数重定义、未定义问题
+* 不支持的类型转换
+* 全局变量无法检索
+* 变量定义和声明的类型不匹配
+* 函数定义和声明的类型（考虑参数类型）不匹配
+* 数组声明范围不合法
 
