@@ -8,6 +8,7 @@ int main()
     int NumUpdated[2000];
     int PresentNum = -1, PresentOperator = -1, DecimalProcess = 1, StrLength;
     int num = 0, i;
+    printf("please input an calculate expression: ");
     gets(InputExpression);
     StrLength = strlen(InputExpression);
     for(i = StrLength - 1; i >= 0; i = i - 1) 
@@ -105,6 +106,6 @@ int main()
             PresentNum = PresentNum + 1;
         }
     }
-    printf("%d\n", NumUpdated[0]);
+    printf("result: %d\n", NumUpdated[0]);
     return 0;
 }

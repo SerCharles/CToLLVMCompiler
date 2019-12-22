@@ -20,427 +20,430 @@ main.entry:
   %"num" = alloca i32
   store i32 0, i32* %"num"
   %"i" = alloca i32
-  %".8" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 0
-  %".9" = call i32 (...) @"gets"(i8* %".8")
+  %".8" = getelementptr inbounds [39 x i8], [39 x i8]* @".str0", i32 0, i32 0
+  %".9" = call i32 (i8*, ...) @"printf"(i8* %".8")
   %".10" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 0
-  %".11" = call i32 @"strlen"(i8* %".10")
-  store i32 %".11", i32* %"StrLength"
-  %".13" = load i32, i32* %"StrLength"
-  %".14" = sub i32 %".13", 1
-  store i32 %".14", i32* %"i"
-  br label %".16"
-.16:
-  %".20" = load i32, i32* %"i"
-  %".21" = icmp sge i32 %".20", 0
-  br i1 %".21", label %".17", label %".18"
-.17:
-  %".23" = load i32, i32* %"i"
-  %".24" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".23"
-  %".25" = load i8, i8* %".24"
-  %".26" = load i32, i32* %"i"
-  %".27" = add i32 %".26", 1
-  %".28" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".27"
-  store i8 %".25", i8* %".28"
-  %".30" = load i32, i32* %"i"
-  %".31" = sub i32 %".30", 1
-  store i32 %".31", i32* %"i"
-  br label %".16"
+  %".11" = call i32 (...) @"gets"(i8* %".10")
+  %".12" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 0
+  %".13" = call i32 @"strlen"(i8* %".12")
+  store i32 %".13", i32* %"StrLength"
+  %".15" = load i32, i32* %"StrLength"
+  %".16" = sub i32 %".15", 1
+  store i32 %".16", i32* %"i"
+  br label %".18"
 .18:
-  %".34" = load i32, i32* %"StrLength"
-  %".35" = add i32 %".34", 1
-  store i32 %".35", i32* %"i"
-  %".37" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 0
-  store i8 40, i8* %".37"
-  %".39" = load i32, i32* %"StrLength"
-  %".40" = add i32 %".39", 1
-  %".41" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".40"
-  store i8 41, i8* %".41"
-  %".43" = load i32, i32* %"StrLength"
-  %".44" = add i32 %".43", 2
-  store i32 %".44", i32* %"StrLength"
-  br label %".46"
-.46:
-  %".50" = load i32, i32* %"i"
-  %".51" = icmp sge i32 %".50", 0
-  br i1 %".51", label %".47", label %".48"
-.47:
-  br label %".53"
+  %".22" = load i32, i32* %"i"
+  %".23" = icmp sge i32 %".22", 0
+  br i1 %".23", label %".19", label %".20"
+.19:
+  %".25" = load i32, i32* %"i"
+  %".26" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".25"
+  %".27" = load i8, i8* %".26"
+  %".28" = load i32, i32* %"i"
+  %".29" = add i32 %".28", 1
+  %".30" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".29"
+  store i8 %".27", i8* %".30"
+  %".32" = load i32, i32* %"i"
+  %".33" = sub i32 %".32", 1
+  store i32 %".33", i32* %"i"
+  br label %".18"
+.20:
+  %".36" = load i32, i32* %"StrLength"
+  %".37" = add i32 %".36", 1
+  store i32 %".37", i32* %"i"
+  %".39" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 0
+  store i8 40, i8* %".39"
+  %".41" = load i32, i32* %"StrLength"
+  %".42" = add i32 %".41", 1
+  %".43" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".42"
+  store i8 41, i8* %".43"
+  %".45" = load i32, i32* %"StrLength"
+  %".46" = add i32 %".45", 2
+  store i32 %".46", i32* %"StrLength"
+  br label %".48"
 .48:
-  %".417" = getelementptr inbounds [4 x i8], [4 x i8]* @".str0", i32 0, i32 0
-  %".418" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 0
-  %".419" = load i32, i32* %".418"
-  %".420" = call i32 (i8*, ...) @"printf"(i8* %".417", i32 %".419")
+  %".52" = load i32, i32* %"i"
+  %".53" = icmp sge i32 %".52", 0
+  br i1 %".53", label %".49", label %".50"
+.49:
+  br label %".55"
+.50:
+  %".419" = getelementptr inbounds [12 x i8], [12 x i8]* @".str1", i32 0, i32 0
+  %".420" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 0
+  %".421" = load i32, i32* %".420"
+  %".422" = call i32 (i8*, ...) @"printf"(i8* %".419", i32 %".421")
   ret i32 0
-.53:
-  %".58" = load i32, i32* %"i"
-  %".59" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".58"
-  %".60" = load i8, i8* %".59"
-  %".61" = icmp eq i8 %".60", 43
-  br i1 %".61", label %".56", label %".57"
-.54:
-  br label %".46"
+.55:
+  %".60" = load i32, i32* %"i"
+  %".61" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".60"
+  %".62" = load i8, i8* %".61"
+  %".63" = icmp eq i8 %".62", 43
+  br i1 %".63", label %".58", label %".59"
 .56:
-  br label %".63"
-.57:
-  %".135" = load i32, i32* %"i"
-  %".136" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".135"
-  %".137" = load i8, i8* %".136"
-  %".138" = icmp eq i8 %".137", 45
-  br i1 %".138", label %".133", label %".134"
-.63:
-  %".67" = load i32, i32* %"PresentOperator"
-  %".68" = icmp sge i32 %".67", 0
-  %".69" = load i32, i32* %"PresentOperator"
-  %".70" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".69"
-  %".71" = load i8, i8* %".70"
-  %".72" = icmp eq i8 %".71", 42
-  %".73" = load i32, i32* %"PresentOperator"
-  %".74" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".73"
-  %".75" = load i8, i8* %".74"
-  %".76" = icmp eq i8 %".75", 47
-  %".77" = or i1 %".72", %".76"
-  %".78" = and i1 %".68", %".77"
-  br i1 %".78", label %".64", label %".65"
-.64:
-  br label %".80"
+  br label %".48"
+.58:
+  br label %".65"
+.59:
+  %".137" = load i32, i32* %"i"
+  %".138" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".137"
+  %".139" = load i8, i8* %".138"
+  %".140" = icmp eq i8 %".139", 45
+  br i1 %".140", label %".135", label %".136"
 .65:
-  %".123" = load i32, i32* %"PresentOperator"
-  %".124" = add i32 %".123", 1
-  store i32 %".124", i32* %"PresentOperator"
-  %".126" = load i32, i32* %"PresentOperator"
-  %".127" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".126"
-  store i8 43, i8* %".127"
-  %".129" = load i32, i32* %"i"
-  %".130" = sub i32 %".129", 1
-  store i32 %".130", i32* %"i"
-  br label %".54"
-.80:
-  %".85" = load i32, i32* %"PresentOperator"
-  %".86" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".85"
-  %".87" = load i8, i8* %".86"
-  %".88" = icmp eq i8 %".87", 42
-  br i1 %".88", label %".83", label %".84"
-.81:
-  %".116" = load i32, i32* %"PresentOperator"
-  %".117" = sub i32 %".116", 1
-  store i32 %".117", i32* %"PresentOperator"
-  %".119" = load i32, i32* %"PresentNum"
-  %".120" = sub i32 %".119", 1
-  store i32 %".120", i32* %"PresentNum"
-  br label %".63"
+  %".69" = load i32, i32* %"PresentOperator"
+  %".70" = icmp sge i32 %".69", 0
+  %".71" = load i32, i32* %"PresentOperator"
+  %".72" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".71"
+  %".73" = load i8, i8* %".72"
+  %".74" = icmp eq i8 %".73", 42
+  %".75" = load i32, i32* %"PresentOperator"
+  %".76" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".75"
+  %".77" = load i8, i8* %".76"
+  %".78" = icmp eq i8 %".77", 47
+  %".79" = or i1 %".74", %".78"
+  %".80" = and i1 %".70", %".79"
+  br i1 %".80", label %".66", label %".67"
+.66:
+  br label %".82"
+.67:
+  %".125" = load i32, i32* %"PresentOperator"
+  %".126" = add i32 %".125", 1
+  store i32 %".126", i32* %"PresentOperator"
+  %".128" = load i32, i32* %"PresentOperator"
+  %".129" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".128"
+  store i8 43, i8* %".129"
+  %".131" = load i32, i32* %"i"
+  %".132" = sub i32 %".131", 1
+  store i32 %".132", i32* %"i"
+  br label %".56"
+.82:
+  %".87" = load i32, i32* %"PresentOperator"
+  %".88" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".87"
+  %".89" = load i8, i8* %".88"
+  %".90" = icmp eq i8 %".89", 42
+  br i1 %".90", label %".85", label %".86"
 .83:
-  %".90" = load i32, i32* %"PresentNum"
-  %".91" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".90"
-  %".92" = load i32, i32* %".91"
-  %".93" = load i32, i32* %"PresentNum"
-  %".94" = sub i32 %".93", 1
-  %".95" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".94"
-  %".96" = load i32, i32* %".95"
-  %".97" = mul i32 %".92", %".96"
-  %".98" = load i32, i32* %"PresentNum"
-  %".99" = sub i32 %".98", 1
-  %".100" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".99"
-  store i32 %".97", i32* %".100"
-  br label %".81"
-.84:
-  %".103" = load i32, i32* %"PresentNum"
-  %".104" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".103"
-  %".105" = load i32, i32* %".104"
-  %".106" = load i32, i32* %"PresentNum"
-  %".107" = sub i32 %".106", 1
-  %".108" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".107"
-  %".109" = load i32, i32* %".108"
-  %".110" = sdiv i32 %".105", %".109"
-  %".111" = load i32, i32* %"PresentNum"
-  %".112" = sub i32 %".111", 1
-  %".113" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".112"
-  store i32 %".110", i32* %".113"
-  br label %".81"
-.133:
-  br label %".140"
-.134:
-  %".212" = load i32, i32* %"i"
-  %".213" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".212"
-  %".214" = load i8, i8* %".213"
-  %".215" = icmp eq i8 %".214", 42
-  br i1 %".215", label %".210", label %".211"
-.140:
-  %".144" = load i32, i32* %"PresentOperator"
-  %".145" = icmp sge i32 %".144", 0
-  %".146" = load i32, i32* %"PresentOperator"
-  %".147" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".146"
-  %".148" = load i8, i8* %".147"
-  %".149" = icmp eq i8 %".148", 42
-  %".150" = load i32, i32* %"PresentOperator"
-  %".151" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".150"
-  %".152" = load i8, i8* %".151"
-  %".153" = icmp eq i8 %".152", 47
-  %".154" = or i1 %".149", %".153"
-  %".155" = and i1 %".145", %".154"
-  br i1 %".155", label %".141", label %".142"
-.141:
-  br label %".157"
+  %".118" = load i32, i32* %"PresentOperator"
+  %".119" = sub i32 %".118", 1
+  store i32 %".119", i32* %"PresentOperator"
+  %".121" = load i32, i32* %"PresentNum"
+  %".122" = sub i32 %".121", 1
+  store i32 %".122", i32* %"PresentNum"
+  br label %".65"
+.85:
+  %".92" = load i32, i32* %"PresentNum"
+  %".93" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".92"
+  %".94" = load i32, i32* %".93"
+  %".95" = load i32, i32* %"PresentNum"
+  %".96" = sub i32 %".95", 1
+  %".97" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".96"
+  %".98" = load i32, i32* %".97"
+  %".99" = mul i32 %".94", %".98"
+  %".100" = load i32, i32* %"PresentNum"
+  %".101" = sub i32 %".100", 1
+  %".102" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".101"
+  store i32 %".99", i32* %".102"
+  br label %".83"
+.86:
+  %".105" = load i32, i32* %"PresentNum"
+  %".106" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".105"
+  %".107" = load i32, i32* %".106"
+  %".108" = load i32, i32* %"PresentNum"
+  %".109" = sub i32 %".108", 1
+  %".110" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".109"
+  %".111" = load i32, i32* %".110"
+  %".112" = sdiv i32 %".107", %".111"
+  %".113" = load i32, i32* %"PresentNum"
+  %".114" = sub i32 %".113", 1
+  %".115" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".114"
+  store i32 %".112", i32* %".115"
+  br label %".83"
+.135:
+  br label %".142"
+.136:
+  %".214" = load i32, i32* %"i"
+  %".215" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".214"
+  %".216" = load i8, i8* %".215"
+  %".217" = icmp eq i8 %".216", 42
+  br i1 %".217", label %".212", label %".213"
 .142:
-  %".200" = load i32, i32* %"PresentOperator"
-  %".201" = add i32 %".200", 1
-  store i32 %".201", i32* %"PresentOperator"
-  %".203" = load i32, i32* %"PresentOperator"
-  %".204" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".203"
-  store i8 45, i8* %".204"
-  %".206" = load i32, i32* %"i"
-  %".207" = sub i32 %".206", 1
-  store i32 %".207", i32* %"i"
-  br label %".54"
-.157:
-  %".162" = load i32, i32* %"PresentOperator"
-  %".163" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".162"
-  %".164" = load i8, i8* %".163"
-  %".165" = icmp eq i8 %".164", 42
-  br i1 %".165", label %".160", label %".161"
-.158:
-  %".193" = load i32, i32* %"PresentNum"
-  %".194" = sub i32 %".193", 1
-  store i32 %".194", i32* %"PresentNum"
-  %".196" = load i32, i32* %"PresentOperator"
-  %".197" = sub i32 %".196", 1
-  store i32 %".197", i32* %"PresentOperator"
-  br label %".140"
+  %".146" = load i32, i32* %"PresentOperator"
+  %".147" = icmp sge i32 %".146", 0
+  %".148" = load i32, i32* %"PresentOperator"
+  %".149" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".148"
+  %".150" = load i8, i8* %".149"
+  %".151" = icmp eq i8 %".150", 42
+  %".152" = load i32, i32* %"PresentOperator"
+  %".153" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".152"
+  %".154" = load i8, i8* %".153"
+  %".155" = icmp eq i8 %".154", 47
+  %".156" = or i1 %".151", %".155"
+  %".157" = and i1 %".147", %".156"
+  br i1 %".157", label %".143", label %".144"
+.143:
+  br label %".159"
+.144:
+  %".202" = load i32, i32* %"PresentOperator"
+  %".203" = add i32 %".202", 1
+  store i32 %".203", i32* %"PresentOperator"
+  %".205" = load i32, i32* %"PresentOperator"
+  %".206" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".205"
+  store i8 45, i8* %".206"
+  %".208" = load i32, i32* %"i"
+  %".209" = sub i32 %".208", 1
+  store i32 %".209", i32* %"i"
+  br label %".56"
+.159:
+  %".164" = load i32, i32* %"PresentOperator"
+  %".165" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".164"
+  %".166" = load i8, i8* %".165"
+  %".167" = icmp eq i8 %".166", 42
+  br i1 %".167", label %".162", label %".163"
 .160:
-  %".167" = load i32, i32* %"PresentNum"
-  %".168" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".167"
-  %".169" = load i32, i32* %".168"
-  %".170" = load i32, i32* %"PresentNum"
-  %".171" = sub i32 %".170", 1
-  %".172" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".171"
-  %".173" = load i32, i32* %".172"
-  %".174" = mul i32 %".169", %".173"
-  %".175" = load i32, i32* %"PresentNum"
-  %".176" = sub i32 %".175", 1
-  %".177" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".176"
-  store i32 %".174", i32* %".177"
-  br label %".158"
-.161:
-  %".180" = load i32, i32* %"PresentNum"
-  %".181" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".180"
-  %".182" = load i32, i32* %".181"
-  %".183" = load i32, i32* %"PresentNum"
-  %".184" = sub i32 %".183", 1
-  %".185" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".184"
-  %".186" = load i32, i32* %".185"
-  %".187" = sdiv i32 %".182", %".186"
-  %".188" = load i32, i32* %"PresentNum"
-  %".189" = sub i32 %".188", 1
-  %".190" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".189"
-  store i32 %".187", i32* %".190"
-  br label %".158"
-.210:
-  %".217" = load i32, i32* %"PresentOperator"
-  %".218" = add i32 %".217", 1
-  store i32 %".218", i32* %"PresentOperator"
-  %".220" = load i32, i32* %"PresentOperator"
-  %".221" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".220"
-  store i8 42, i8* %".221"
-  %".223" = load i32, i32* %"i"
-  %".224" = sub i32 %".223", 1
-  store i32 %".224", i32* %"i"
-  br label %".54"
-.211:
-  %".229" = load i32, i32* %"i"
-  %".230" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".229"
-  %".231" = load i8, i8* %".230"
-  %".232" = icmp eq i8 %".231", 47
-  br i1 %".232", label %".227", label %".228"
-.227:
-  %".234" = load i32, i32* %"PresentOperator"
-  %".235" = add i32 %".234", 1
-  store i32 %".235", i32* %"PresentOperator"
-  %".237" = load i32, i32* %"PresentOperator"
-  %".238" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".237"
-  store i8 47, i8* %".238"
-  %".240" = load i32, i32* %"i"
-  %".241" = sub i32 %".240", 1
-  store i32 %".241", i32* %"i"
-  br label %".54"
-.228:
-  %".246" = load i32, i32* %"i"
-  %".247" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".246"
-  %".248" = load i8, i8* %".247"
-  %".249" = icmp eq i8 %".248", 41
-  br i1 %".249", label %".244", label %".245"
-.244:
-  %".251" = load i32, i32* %"PresentOperator"
-  %".252" = add i32 %".251", 1
-  store i32 %".252", i32* %"PresentOperator"
-  %".254" = load i32, i32* %"PresentOperator"
-  %".255" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".254"
-  store i8 41, i8* %".255"
-  %".257" = load i32, i32* %"i"
-  %".258" = sub i32 %".257", 1
-  store i32 %".258", i32* %"i"
-  br label %".54"
-.245:
-  %".263" = load i32, i32* %"i"
-  %".264" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".263"
-  %".265" = load i8, i8* %".264"
-  %".266" = icmp eq i8 %".265", 40
-  br i1 %".266", label %".261", label %".262"
-.261:
-  br label %".268"
-.262:
+  %".195" = load i32, i32* %"PresentNum"
+  %".196" = sub i32 %".195", 1
+  store i32 %".196", i32* %"PresentNum"
+  %".198" = load i32, i32* %"PresentOperator"
+  %".199" = sub i32 %".198", 1
+  store i32 %".199", i32* %"PresentOperator"
+  br label %".142"
+.162:
+  %".169" = load i32, i32* %"PresentNum"
+  %".170" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".169"
+  %".171" = load i32, i32* %".170"
+  %".172" = load i32, i32* %"PresentNum"
+  %".173" = sub i32 %".172", 1
+  %".174" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".173"
+  %".175" = load i32, i32* %".174"
+  %".176" = mul i32 %".171", %".175"
+  %".177" = load i32, i32* %"PresentNum"
+  %".178" = sub i32 %".177", 1
+  %".179" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".178"
+  store i32 %".176", i32* %".179"
+  br label %".160"
+.163:
+  %".182" = load i32, i32* %"PresentNum"
+  %".183" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".182"
+  %".184" = load i32, i32* %".183"
+  %".185" = load i32, i32* %"PresentNum"
+  %".186" = sub i32 %".185", 1
+  %".187" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".186"
+  %".188" = load i32, i32* %".187"
+  %".189" = sdiv i32 %".184", %".188"
+  %".190" = load i32, i32* %"PresentNum"
+  %".191" = sub i32 %".190", 1
+  %".192" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".191"
+  store i32 %".189", i32* %".192"
+  br label %".160"
+.212:
+  %".219" = load i32, i32* %"PresentOperator"
+  %".220" = add i32 %".219", 1
+  store i32 %".220", i32* %"PresentOperator"
+  %".222" = load i32, i32* %"PresentOperator"
+  %".223" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".222"
+  store i8 42, i8* %".223"
+  %".225" = load i32, i32* %"i"
+  %".226" = sub i32 %".225", 1
+  store i32 %".226", i32* %"i"
+  br label %".56"
+.213:
+  %".231" = load i32, i32* %"i"
+  %".232" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".231"
+  %".233" = load i8, i8* %".232"
+  %".234" = icmp eq i8 %".233", 47
+  br i1 %".234", label %".229", label %".230"
+.229:
+  %".236" = load i32, i32* %"PresentOperator"
+  %".237" = add i32 %".236", 1
+  store i32 %".237", i32* %"PresentOperator"
+  %".239" = load i32, i32* %"PresentOperator"
+  %".240" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".239"
+  store i8 47, i8* %".240"
+  %".242" = load i32, i32* %"i"
+  %".243" = sub i32 %".242", 1
+  store i32 %".243", i32* %"i"
+  br label %".56"
+.230:
+  %".248" = load i32, i32* %"i"
+  %".249" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".248"
+  %".250" = load i8, i8* %".249"
+  %".251" = icmp eq i8 %".250", 41
+  br i1 %".251", label %".246", label %".247"
+.246:
+  %".253" = load i32, i32* %"PresentOperator"
+  %".254" = add i32 %".253", 1
+  store i32 %".254", i32* %"PresentOperator"
+  %".256" = load i32, i32* %"PresentOperator"
+  %".257" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".256"
+  store i8 41, i8* %".257"
+  %".259" = load i32, i32* %"i"
+  %".260" = sub i32 %".259", 1
+  store i32 %".260", i32* %"i"
+  br label %".56"
+.247:
+  %".265" = load i32, i32* %"i"
+  %".266" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".265"
+  %".267" = load i8, i8* %".266"
+  %".268" = icmp eq i8 %".267", 40
+  br i1 %".268", label %".263", label %".264"
+.263:
+  br label %".270"
+.264:
   store i32 0, i32* %"num"
   store i32 1, i32* %"DecimalProcess"
-  br label %".373"
-.268:
-  %".272" = load i32, i32* %"PresentOperator"
-  %".273" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".272"
-  %".274" = load i8, i8* %".273"
-  %".275" = icmp ne i8 %".274", 41
-  br i1 %".275", label %".269", label %".270"
-.269:
-  %"OperatorGet" = alloca i8
-  %".277" = load i32, i32* %"PresentOperator"
-  %".278" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".277"
-  %".279" = load i8, i8* %".278"
-  store i8 %".279", i8* %"OperatorGet"
-  %".281" = load i32, i32* %"PresentOperator"
-  %".282" = sub i32 %".281", 1
-  store i32 %".282", i32* %"PresentOperator"
-  br label %".284"
+  br label %".375"
 .270:
-  %".364" = load i32, i32* %"PresentOperator"
-  %".365" = sub i32 %".364", 1
-  store i32 %".365", i32* %"PresentOperator"
-  %".367" = load i32, i32* %"i"
-  %".368" = sub i32 %".367", 1
-  store i32 %".368", i32* %"i"
-  br label %".54"
-.284:
-  %".289" = load i8, i8* %"OperatorGet"
-  %".290" = icmp eq i8 %".289", 47
-  br i1 %".290", label %".287", label %".288"
-.285:
-  %".360" = load i32, i32* %"PresentNum"
-  %".361" = sub i32 %".360", 1
-  store i32 %".361", i32* %"PresentNum"
-  br label %".268"
+  %".274" = load i32, i32* %"PresentOperator"
+  %".275" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".274"
+  %".276" = load i8, i8* %".275"
+  %".277" = icmp ne i8 %".276", 41
+  br i1 %".277", label %".271", label %".272"
+.271:
+  %"OperatorGet" = alloca i8
+  %".279" = load i32, i32* %"PresentOperator"
+  %".280" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"OperationUpdated", i32 0, i32 %".279"
+  %".281" = load i8, i8* %".280"
+  store i8 %".281", i8* %"OperatorGet"
+  %".283" = load i32, i32* %"PresentOperator"
+  %".284" = sub i32 %".283", 1
+  store i32 %".284", i32* %"PresentOperator"
+  br label %".286"
+.272:
+  %".366" = load i32, i32* %"PresentOperator"
+  %".367" = sub i32 %".366", 1
+  store i32 %".367", i32* %"PresentOperator"
+  %".369" = load i32, i32* %"i"
+  %".370" = sub i32 %".369", 1
+  store i32 %".370", i32* %"i"
+  br label %".56"
+.286:
+  %".291" = load i8, i8* %"OperatorGet"
+  %".292" = icmp eq i8 %".291", 47
+  br i1 %".292", label %".289", label %".290"
 .287:
-  %".292" = load i32, i32* %"PresentNum"
-  %".293" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".292"
-  %".294" = load i32, i32* %".293"
-  %".295" = load i32, i32* %"PresentNum"
-  %".296" = sub i32 %".295", 1
-  %".297" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".296"
-  %".298" = load i32, i32* %".297"
-  %".299" = sdiv i32 %".294", %".298"
-  %".300" = load i32, i32* %"PresentNum"
-  %".301" = sub i32 %".300", 1
-  %".302" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".301"
-  store i32 %".299", i32* %".302"
-  br label %".285"
-.288:
-  %".307" = load i8, i8* %"OperatorGet"
-  %".308" = icmp eq i8 %".307", 43
-  br i1 %".308", label %".305", label %".306"
-.305:
-  %".310" = load i32, i32* %"PresentNum"
-  %".311" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".310"
-  %".312" = load i32, i32* %".311"
-  %".313" = load i32, i32* %"PresentNum"
-  %".314" = sub i32 %".313", 1
-  %".315" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".314"
-  %".316" = load i32, i32* %".315"
-  %".317" = add i32 %".312", %".316"
-  %".318" = load i32, i32* %"PresentNum"
-  %".319" = sub i32 %".318", 1
-  %".320" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".319"
-  store i32 %".317", i32* %".320"
-  br label %".285"
-.306:
-  %".325" = load i8, i8* %"OperatorGet"
-  %".326" = icmp eq i8 %".325", 45
-  br i1 %".326", label %".323", label %".324"
-.323:
-  %".328" = load i32, i32* %"PresentNum"
-  %".329" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".328"
-  %".330" = load i32, i32* %".329"
-  %".331" = load i32, i32* %"PresentNum"
-  %".332" = sub i32 %".331", 1
-  %".333" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".332"
-  %".334" = load i32, i32* %".333"
-  %".335" = sub i32 %".330", %".334"
-  %".336" = load i32, i32* %"PresentNum"
-  %".337" = sub i32 %".336", 1
-  %".338" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".337"
-  store i32 %".335", i32* %".338"
-  br label %".285"
-.324:
-  %".343" = load i8, i8* %"OperatorGet"
-  %".344" = icmp eq i8 %".343", 42
-  br i1 %".344", label %".341", label %".342"
-.341:
-  %".346" = load i32, i32* %"PresentNum"
-  %".347" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".346"
-  %".348" = load i32, i32* %".347"
-  %".349" = load i32, i32* %"PresentNum"
-  %".350" = sub i32 %".349", 1
-  %".351" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".350"
-  %".352" = load i32, i32* %".351"
-  %".353" = mul i32 %".348", %".352"
-  %".354" = load i32, i32* %"PresentNum"
-  %".355" = sub i32 %".354", 1
-  %".356" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".355"
-  store i32 %".353", i32* %".356"
-  br label %".285"
-.342:
-  br label %".285"
-.373:
-  %".377" = load i32, i32* %"i"
-  %".378" = icmp sge i32 %".377", 0
-  %".379" = load i32, i32* %"i"
-  %".380" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".379"
-  %".381" = load i8, i8* %".380"
-  %".382" = icmp sle i8 %".381", 57
-  %".383" = and i1 %".378", %".382"
-  %".384" = load i32, i32* %"i"
-  %".385" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".384"
-  %".386" = load i8, i8* %".385"
-  %".387" = icmp sge i8 %".386", 48
-  %".388" = and i1 %".383", %".387"
-  br i1 %".388", label %".374", label %".375"
-.374:
-  %".390" = load i32, i32* %"num"
-  %".391" = load i32, i32* %"i"
-  %".392" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".391"
-  %".393" = load i8, i8* %".392"
-  %".394" = sub i8 %".393", 48
-  %".395" = load i32, i32* %"DecimalProcess"
-  %".396" = sext i8 %".394" to i32
-  %".397" = mul i32 %".396", %".395"
-  %".398" = add i32 %".390", %".397"
-  store i32 %".398", i32* %"num"
-  %".400" = load i32, i32* %"DecimalProcess"
-  %".401" = mul i32 %".400", 10
-  store i32 %".401", i32* %"DecimalProcess"
-  %".403" = load i32, i32* %"i"
-  %".404" = sub i32 %".403", 1
-  store i32 %".404", i32* %"i"
-  br label %".373"
+  %".362" = load i32, i32* %"PresentNum"
+  %".363" = sub i32 %".362", 1
+  store i32 %".363", i32* %"PresentNum"
+  br label %".270"
+.289:
+  %".294" = load i32, i32* %"PresentNum"
+  %".295" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".294"
+  %".296" = load i32, i32* %".295"
+  %".297" = load i32, i32* %"PresentNum"
+  %".298" = sub i32 %".297", 1
+  %".299" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".298"
+  %".300" = load i32, i32* %".299"
+  %".301" = sdiv i32 %".296", %".300"
+  %".302" = load i32, i32* %"PresentNum"
+  %".303" = sub i32 %".302", 1
+  %".304" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".303"
+  store i32 %".301", i32* %".304"
+  br label %".287"
+.290:
+  %".309" = load i8, i8* %"OperatorGet"
+  %".310" = icmp eq i8 %".309", 43
+  br i1 %".310", label %".307", label %".308"
+.307:
+  %".312" = load i32, i32* %"PresentNum"
+  %".313" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".312"
+  %".314" = load i32, i32* %".313"
+  %".315" = load i32, i32* %"PresentNum"
+  %".316" = sub i32 %".315", 1
+  %".317" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".316"
+  %".318" = load i32, i32* %".317"
+  %".319" = add i32 %".314", %".318"
+  %".320" = load i32, i32* %"PresentNum"
+  %".321" = sub i32 %".320", 1
+  %".322" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".321"
+  store i32 %".319", i32* %".322"
+  br label %".287"
+.308:
+  %".327" = load i8, i8* %"OperatorGet"
+  %".328" = icmp eq i8 %".327", 45
+  br i1 %".328", label %".325", label %".326"
+.325:
+  %".330" = load i32, i32* %"PresentNum"
+  %".331" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".330"
+  %".332" = load i32, i32* %".331"
+  %".333" = load i32, i32* %"PresentNum"
+  %".334" = sub i32 %".333", 1
+  %".335" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".334"
+  %".336" = load i32, i32* %".335"
+  %".337" = sub i32 %".332", %".336"
+  %".338" = load i32, i32* %"PresentNum"
+  %".339" = sub i32 %".338", 1
+  %".340" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".339"
+  store i32 %".337", i32* %".340"
+  br label %".287"
+.326:
+  %".345" = load i8, i8* %"OperatorGet"
+  %".346" = icmp eq i8 %".345", 42
+  br i1 %".346", label %".343", label %".344"
+.343:
+  %".348" = load i32, i32* %"PresentNum"
+  %".349" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".348"
+  %".350" = load i32, i32* %".349"
+  %".351" = load i32, i32* %"PresentNum"
+  %".352" = sub i32 %".351", 1
+  %".353" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".352"
+  %".354" = load i32, i32* %".353"
+  %".355" = mul i32 %".350", %".354"
+  %".356" = load i32, i32* %"PresentNum"
+  %".357" = sub i32 %".356", 1
+  %".358" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".357"
+  store i32 %".355", i32* %".358"
+  br label %".287"
+.344:
+  br label %".287"
 .375:
-  %".407" = load i32, i32* %"num"
-  %".408" = load i32, i32* %"PresentNum"
-  %".409" = add i32 %".408", 1
-  %".410" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".409"
-  store i32 %".407", i32* %".410"
-  %".412" = load i32, i32* %"PresentNum"
-  %".413" = add i32 %".412", 1
-  store i32 %".413", i32* %"PresentNum"
-  br label %".54"
+  %".379" = load i32, i32* %"i"
+  %".380" = icmp sge i32 %".379", 0
+  %".381" = load i32, i32* %"i"
+  %".382" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".381"
+  %".383" = load i8, i8* %".382"
+  %".384" = icmp sle i8 %".383", 57
+  %".385" = and i1 %".380", %".384"
+  %".386" = load i32, i32* %"i"
+  %".387" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".386"
+  %".388" = load i8, i8* %".387"
+  %".389" = icmp sge i8 %".388", 48
+  %".390" = and i1 %".385", %".389"
+  br i1 %".390", label %".376", label %".377"
+.376:
+  %".392" = load i32, i32* %"num"
+  %".393" = load i32, i32* %"i"
+  %".394" = getelementptr inbounds [2000 x i8], [2000 x i8]* %"InputExpression", i32 0, i32 %".393"
+  %".395" = load i8, i8* %".394"
+  %".396" = sub i8 %".395", 48
+  %".397" = load i32, i32* %"DecimalProcess"
+  %".398" = sext i8 %".396" to i32
+  %".399" = mul i32 %".398", %".397"
+  %".400" = add i32 %".392", %".399"
+  store i32 %".400", i32* %"num"
+  %".402" = load i32, i32* %"DecimalProcess"
+  %".403" = mul i32 %".402", 10
+  store i32 %".403", i32* %"DecimalProcess"
+  %".405" = load i32, i32* %"i"
+  %".406" = sub i32 %".405", 1
+  store i32 %".406", i32* %"i"
+  br label %".375"
+.377:
+  %".409" = load i32, i32* %"num"
+  %".410" = load i32, i32* %"PresentNum"
+  %".411" = add i32 %".410", 1
+  %".412" = getelementptr inbounds [2000 x i32], [2000 x i32]* %"NumUpdated", i32 0, i32 %".411"
+  store i32 %".409", i32* %".412"
+  %".414" = load i32, i32* %"PresentNum"
+  %".415" = add i32 %".414", 1
+  store i32 %".415", i32* %"PresentNum"
+  br label %".56"
 }
 
+declare i32 @"printf"(i8* %".1", ...) 
+
+@".str0" = constant [39 x i8] c"please input an calculate expression: \00"
 declare i32 @"gets"(...) 
 
 declare i32 @"strlen"(i8* %".1") 
 
-declare i32 @"printf"(i8* %".1", ...) 
-
-@".str0" = constant [4 x i8] c"%d\0a\00"
+@".str1" = constant [12 x i8] c"result: %d\0a\00"
