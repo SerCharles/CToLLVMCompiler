@@ -38,7 +38,7 @@ python main.py test/xxx.c   #该命令会在源代码同级目录下生成xxx.ll
 快速编译test文件夹下所有源代码
 
 ```shell
-python complie_all.py       #该命令会编译test文件夹下所有源代码
+python compile_all.py       #该命令会编译test文件夹下所有源代码
 ```
 
 运行LLVM IR代码
