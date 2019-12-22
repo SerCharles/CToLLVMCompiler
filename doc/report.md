@@ -8,7 +8,8 @@
 
 ### 1. 环境配置
 
-程序语言：python 3.7.4
+* 系统：Ubuntu16.04
+* 语言：Python3.6
 
 安装[antlr4](https://www.antlr.org/)；
 安装antlr4-python3-runtime、llvmlite；
@@ -20,20 +21,24 @@ pip install llvmlite
 
 ### 2.运行说明
 
-1.在src目录下命令行输入 ```python QuickTest.py``` 编译全部五个程序样例；也可以运行 ```python main.py [filename]``` 编译特定文件
+**注意以下命令运行路径为`/src`目录下，即与`main.py`同级**
 
-[filename]列表如下：
-```
-test/palindrome.c
-test/kmp.c
-test/calc.c
-test/quickSort.c
-test/biTree.c
+生成某个源代码的LLVM IR代码
+
+```shell
+python main.py test/xxx.c   #该命令会在源代码同级目录下生成xxx.ll文件
 ```
 
-2.在LLVM安装好的环境下,src目录下运行([ll filename]将上述[filename]的后缀".c"改为".ll"即可)
+快速编译test文件夹下所有源代码
+
+```shell
+python compile_all.py       #该命令会编译test文件夹下所有源代码
 ```
-lli [ll filename]
+
+运行LLVM IR代码
+
+```shell
+lli xxx.ll
 ```
 
 
