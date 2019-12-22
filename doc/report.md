@@ -1,14 +1,44 @@
+# 一款由C到LLVM的编译器
 
+### 王世杰 沈冠霖 陈语凝
 
+石墨文档链接：(https://shimo.im/docs/WkXRQHRhRRxHdWyP/)
 
+## 一、使用说明
 
-## 关键点
+### 1. 环境配置
 
-####1.变量，结构体，函数的管理
+程序语言：python 3.7.4
+
+安装[antlr4](https://www.antlr.org/)；
+安装antlr4-python3-runtime、llvmlite；
+
+```
+pip install antlr4-python3-runtime
+pip install llvmlite
+```
+
+### 2.运行说明
+
+1.在src目录下命令行输入 ```python QuickTest.py``` 测试全部五个程序样例；
+2.也可以运行 ```python main.py [filename]```
+
+[filename]列表如下：
+```
+test/palindrome.c
+test/kmp.c
+test/calc.c
+test/quickSort.c
+test/
+```
+
+## 二、实现方法与重难点简述
+
+### 1.变量，结构体，函数的管理
 
 **1.1 符号表的实现**
 
-我实现了SymbolTable类，也就是符号表类，用来管理变量（包括单一变量，数组，结构体变量）。
+我们实现了SymbolTable类，也就是符号表类，用来管理变量（包括单一变量，数组，结构体变量）。
 
 变量作用域是一个类似栈的结构------内层能访问外层变量，外层不能访问内层，一层结束后，其变量都没有意义了。因此我实现的符号表也是这种结构。
 
@@ -41,7 +71,7 @@ LLVMName = Builder.alloca(Type, name = CName)
 
 
 
-####2.函数
+### 2. 函数
 
 **2.1 函数定义**
 
@@ -74,7 +104,7 @@ ReturnVariable = Builder.call(LLVMFunction, ParameterList)
 
 
 
-####3.程序结构
+### 3. 程序结构
 
 **3.1 选择结构**
 
@@ -87,3 +117,4 @@ ReturnVariable = Builder.call(LLVMFunction, ParameterList)
 对于for循环，其基本语法是`for(init; condition ; step)`。其中init初始化语句可以为空，也可以是多条用`,`分割的语句。其逻辑顺序为，在循环开始前先执行init语句，然后判定condition，若满足则执行循环的主题body，随后step，一次循环后再次判定condition，进行下一次循环。
 
 对于while循环，基本语法为`while(condition)`，先判断condition，如果condition为真则执行body，执行完成后再次跳转到condition判断，进行下一次循环，直到不满足condition跳出循环语句。
+
